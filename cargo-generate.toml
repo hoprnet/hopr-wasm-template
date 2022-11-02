@@ -1,4 +1,4 @@
 [template]
 cargo_generate_version = "0.16.0"
-exclude = [ "Makefile" ]
+ignore = [ "Makefile" ]
 
