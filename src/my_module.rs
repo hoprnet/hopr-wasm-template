@@ -16,6 +16,7 @@ mod tests {
 }
 
 /// Module for WASM wrappers of Rust code
+#[cfg(feature = "wasm")]
 pub mod wasm {
     use wasm_bindgen::prelude::*;
 
