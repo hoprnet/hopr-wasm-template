@@ -3,8 +3,8 @@
 // and non-WASM (pure Rust)
 #[cfg_attr(feature = "wasm", wasm_bindgen::prelude::wasm_bindgen)]
 pub struct MyStruct {
-    foo: u32        // private members do not need to have WASM-compatible types
-    pub bar: u32    // public members MUST have WASM-compatible types, if struct used with #[cfg_attr(feature = "wasm"...
+    foo: u32,        // private members do not need to have WASM-compatible types
+    pub bar: u32,    // public members MUST have WASM-compatible types, if struct used with #[cfg_attr(feature = "wasm"...
     // NOTE: you can use #[cfg_attr(feature = "wasm", wasm_bindgen::prelude::wasm_bindgen(skip))]
     // on a public attribute that shall not be available to WASM
 }
