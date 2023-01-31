@@ -9,21 +9,22 @@ pub struct MyStruct {
     // on a public attribute that shall not be available to WASM
 }
 
-// This function won't be available in WASM, even when the "wasm" feature is on
+// This function won't be available in WASM, even when the "wasm" feature is turned on
+// You can use WASM-incompatible types in its arguments and return types freely.
 pub fn foo() -> u32 { 42 }
 
-// This function must not use WASM-specific types, but must be WASM compatible,
+// This function must not use WASM-specific types. Only WASM-compatible types must be used,
 // because the attribute makes it available to both WASM and non-WASM (pure Rust)
 #[cfg_attr(feature = "wasm", wasm_bindgen::prelude::wasm_bindgen)]
 pub fn bar() -> u32 { 0 }
 
 impl MyStruct {
-   // Here, specify methods with types that are strictly NOT compatible with WASM (pure Rust)
+    // Here, specify methods with types that are strictly NOT WASM-compatible.
 }
 
 #[cfg_attr(feature = "wasm", wasm_bindgen::prelude::wasm_bindgen)]
 impl MyStruct {
-   // Here, specify methods with types that are compatible with BOTH WASM and non-WASM (pure Rust)
+    // Here, specify methods with types that are strictly WASM-compatible, but not WASM-specific.
 }
 
 // Trait implementations for types can NEVER be made available for WASM
@@ -33,7 +34,7 @@ impl std::string::ToString for ChannelStatus {
     }
 }
 
-/// Unit tests of pure Rust code (must not contain anything WASM specific)
+/// Unit tests of pure Rust code (must not contain anything WASM-specific)
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -48,8 +49,7 @@ mod tests {
 #[cfg(feature = "wasm")]
 pub mod wasm {
 
-    // Specify free functions here that operate on MyStruct which are stricly WASM-only compatible (e.g. use js_sys,...etc.)
-    // Also types and other free functions that are WASM-only specific are defined here
+     // Use this module to specify everything that is WASM-specific (e.g. uses wasm-bindgen types, js_sys, ...etc.)
 
     use wasm_bindgen::prelude::*;
     use wasm_bindgen::JsValue;
@@ -58,5 +58,11 @@ pub mod wasm {
     pub fn foo(_val: JsValue) -> i32 {
         super::foo()
     }
+
+    #[wasm_bindgen]
+    impl MyStruct {
+        // Specify methods of MyStruct which use WASM-specific
+    }
+
 }
 
