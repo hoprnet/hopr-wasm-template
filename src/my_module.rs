@@ -28,9 +28,9 @@ impl MyStruct {
 }
 
 // Trait implementations for types can NEVER be made available for WASM
-impl std::string::ToString for ChannelStatus {
+impl std::string::ToString for MyStruct {
     fn to_string(&self) -> String {
-        todo!()
+        format!("{}", self.foo)
     }
 }
 
@@ -51,6 +51,7 @@ pub mod wasm {
 
      // Use this module to specify everything that is WASM-specific (e.g. uses wasm-bindgen types, js_sys, ...etc.)
 
+    use super::*;
     use wasm_bindgen::prelude::*;
     use wasm_bindgen::JsValue;
 
