@@ -56,7 +56,7 @@ pub mod wasm {
     use wasm_bindgen::JsValue;
 
     #[wasm_bindgen]
-    pub fn foo(_val: JsValue) -> i32 {
+    pub fn foo(_val: JsValue) -> u32 {
         super::foo()
     }
 
